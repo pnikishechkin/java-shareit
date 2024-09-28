@@ -1,29 +1,21 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.practicum.shareit.user.model.User;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
-@Builder
-@EqualsAndHashCode(of = "id")
 @ToString
-public class Item {
-    @NotNull
-    private Integer id;
+public class ItemCreateDto {
     @NotBlank(message = "Название вещи не может быть пустым")
     private String name;
     @NotBlank(message = "Описание вещи не может быть пустым")
     private String description;
-    @NotNull
     private User owner;
+
+    private Integer ownerId;
     @NotNull
     private Boolean available;
 }
