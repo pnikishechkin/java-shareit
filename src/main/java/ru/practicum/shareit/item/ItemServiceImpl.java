@@ -34,8 +34,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item create(ItemCreateDto itemCreateDto) {
-        User user = userRepository.getByUserId(itemCreateDto.getOwnerId()).orElseThrow(() -> new NotFoundException
-                ("Ошибка! Пользователя с заданным идентификатором не существует"));
+        User user = userRepository.getByUserId(itemCreateDto.getOwnerId()).orElseThrow(() -> new NotFoundException(
+                "Ошибка! Пользователя с заданным идентификатором не существует"));
         itemCreateDto.setOwner(user);
         return itemRepository.create(itemCreateDto);
     }
@@ -49,8 +49,8 @@ public class ItemServiceImpl implements ItemService {
     public Item update(ItemUpdateDto itemUpdateDto) {
         Item item = itemRepository.getByItemId(itemUpdateDto.getId()).orElseThrow(() -> new NotFoundException(
                 "Ошибка! Вещи с заданным идентификатором не существует"));
-        User user = userRepository.getByUserId(itemUpdateDto.getOwnerId()).orElseThrow(() -> new NotFoundException
-                ("Ошибка! Пользователя с заданным идентификатором не существует"));
+        User user = userRepository.getByUserId(itemUpdateDto.getOwnerId()).orElseThrow(() -> new NotFoundException(
+                "Ошибка! Пользователя с заданным идентификатором не существует"));
 
         if (itemUpdateDto.getAvailable() == null) {
             itemUpdateDto.setAvailable(item.getAvailable());
