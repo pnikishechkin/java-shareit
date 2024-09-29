@@ -19,7 +19,7 @@ import java.util.Set;
 @Validated
 public class ItemController {
 
-    private final String SHARER_USER_ID = "X-Sharer-User-Id";
+    private static final String SHARER_USER_ID = "X-Sharer-User-Id";
     private final ItemService itemService;
 
     @GetMapping()
