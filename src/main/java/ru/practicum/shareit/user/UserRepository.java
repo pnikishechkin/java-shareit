@@ -2,8 +2,8 @@ package ru.practicum.shareit.user;
 
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.user.dto.UserCreateDto;
-import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.dto.UserUpdateDto;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.*;
 
