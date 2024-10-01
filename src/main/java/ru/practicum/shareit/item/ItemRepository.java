@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 @Repository
 public class ItemRepository {
     private static Integer id = 1;
-    private HashMap<Integer, Item> items = new LinkedHashMap<>();
-    private HashMap<Integer, Set<Item>> usersItems = new LinkedHashMap<>();
+    private final HashMap<Integer, Item> items = new LinkedHashMap<>();
+    private final HashMap<Integer, Set<Item>> usersItems = new LinkedHashMap<>();
 
     public Item create(ItemCreateDto itemCreateDto) {
         Item item = ItemMapper.toEntity(itemCreateDto);

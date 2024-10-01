@@ -10,8 +10,8 @@ import java.util.*;
 @Repository
 public class UserRepository {
     private static Integer id = 1;
-    private HashMap<Integer, User> users = new LinkedHashMap<>();
-    private Set<String> emails = new LinkedHashSet<>();
+    private final HashMap<Integer, User> users = new LinkedHashMap<>();
+    private final Set<String> emails = new LinkedHashSet<>();
 
     public Optional<User> getByUserId(Integer userId) {
         User user = users.get(userId);
