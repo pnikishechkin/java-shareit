@@ -5,16 +5,13 @@ import ru.practicum.shareit.user.dto.UserCreateDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.dto.UserUpdateDto;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class UserRepository {
     private static Integer id = 1;
-    HashMap<Integer, User> users = new HashMap<>();
-    Set<String> emails = new HashSet<>();
+    private HashMap<Integer, User> users = new LinkedHashMap<>();
+    private Set<String> emails = new LinkedHashSet<>();
 
     public Optional<User> getByUserId(Integer userId) {
         User user = users.get(userId);
@@ -22,7 +19,7 @@ public class UserRepository {
     }
 
     public User create(UserCreateDto userCreateDto) {
-        User user = UserMapper.mapUserCreateToUser(userCreateDto);
+        User user = UserMapper.toEntity(userCreateDto);
         user.setId(getNewId());
         users.put(user.getId(), user);
         emails.add(user.getEmail());
@@ -38,7 +35,7 @@ public class UserRepository {
         emails.remove(userUpdate.getEmail());
         users.remove(userUpdateDto.getId());
 
-        User user = UserMapper.mapUserUpdateDtoToUser(userUpdateDto);
+        User user = UserMapper.toEntity(userUpdateDto);
         users.put(user.getId(), user);
         emails.add(user.getEmail());
         return user;

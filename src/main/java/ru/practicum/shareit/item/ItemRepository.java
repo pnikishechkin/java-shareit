@@ -5,20 +5,17 @@ import ru.practicum.shareit.item.dto.ItemCreateDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.dto.ItemUpdateDto;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
 public class ItemRepository {
     private static Integer id = 1;
-    HashMap<Integer, Item> items = new HashMap<>();
-    HashMap<Integer, Set<Item>> usersItems = new HashMap<>();
+    private HashMap<Integer, Item> items = new LinkedHashMap<>();
+    private HashMap<Integer, Set<Item>> usersItems = new LinkedHashMap<>();
 
     public Item create(ItemCreateDto itemCreateDto) {
-        Item item = ItemMapper.mapToItemDto(itemCreateDto);
+        Item item = ItemMapper.toEntity(itemCreateDto);
         item.setId(getNewId());
         items.put(item.getId(), item);
 
@@ -35,7 +32,7 @@ public class ItemRepository {
         usersItems.get(itemUpdate.getOwner().getId()).remove(itemUpdate);
         items.remove(itemUpdateDto.getId());
 
-        Item item = ItemMapper.mapItemUpdateDtoToItemDto(itemUpdateDto);
+        Item item = ItemMapper.toEntity(itemUpdateDto);
         items.put(item.getId(), item);
         if (!usersItems.containsKey(itemUpdateDto.getOwnerId())) {
             usersItems.put(itemUpdateDto.getOwnerId(), new LinkedHashSet<>());

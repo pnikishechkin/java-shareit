@@ -11,14 +11,9 @@ import ru.practicum.shareit.user.model.User;
 @ToString
 @EqualsAndHashCode(of = "id")
 public class Item {
-    @NotNull
     private Integer id;
-    @NotBlank(message = "Название вещи не может быть пустым")
     private String name;
-    @NotBlank(message = "Описание вещи не может быть пустым")
     private String description;
-    @NotNull
     private User owner;
-    @NotNull
     private Boolean available;
 }

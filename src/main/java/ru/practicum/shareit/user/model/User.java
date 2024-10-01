@@ -11,11 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "id")
 @ToString
 public class User {
-    @NotNull
     private Integer id;
-    @NotBlank(message = "Электронная почта должна быть задана")
-    @Email
     private String email;
-    @NotBlank(message = "Имя не может быть пустым")
     private String name;
 }

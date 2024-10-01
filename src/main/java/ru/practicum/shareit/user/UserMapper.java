@@ -6,14 +6,14 @@ import ru.practicum.shareit.user.dto.UserUpdateDto;
 
 public class UserMapper {
 
-    public static User mapUserCreateToUser(UserCreateDto userCreateDto) {
+    public static User toEntity(UserCreateDto userCreateDto) {
         User user = new User();
         user.setName(userCreateDto.getName());
         user.setEmail(userCreateDto.getEmail());
         return user;
     }
 
-    public static User mapUserUpdateDtoToUser(UserUpdateDto userUpdateDto) {
+    public static User toEntity(UserUpdateDto userUpdateDto) {
         User user = new User();
         user.setId(userUpdateDto.getId());
         user.setName(userUpdateDto.getName());

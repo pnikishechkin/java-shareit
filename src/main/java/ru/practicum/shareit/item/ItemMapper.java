@@ -9,7 +9,7 @@ import ru.practicum.shareit.item.dto.ItemUpdateDto;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ItemMapper {
 
-    public static Item mapToItemDto(ItemCreateDto itemCreateDto) {
+    public static Item toEntity(ItemCreateDto itemCreateDto) {
         Item dto = new Item();
         dto.setName(itemCreateDto.getName());
         dto.setDescription(itemCreateDto.getDescription());
@@ -18,7 +18,7 @@ public final class ItemMapper {
         return dto;
     }
 
-    public static Item mapItemUpdateDtoToItemDto(ItemUpdateDto itemUpdateDto) {
+    public static Item toEntity(ItemUpdateDto itemUpdateDto) {
         Item dto = new Item();
         dto.setId(itemUpdateDto.getId());
         dto.setName(itemUpdateDto.getName());
