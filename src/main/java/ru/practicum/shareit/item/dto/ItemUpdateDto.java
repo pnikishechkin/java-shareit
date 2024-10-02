@@ -1,17 +1,20 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.item.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.practicum.shareit.user.model.User;
 
 @Data
-@ToString
 @EqualsAndHashCode(of = "id")
-public class Item {
+@ToString
+public class ItemUpdateDto {
+    @NotNull
     private Integer id;
     private String name;
     private String description;
+    private Integer ownerId;
     private User owner;
     private Boolean available;
 }
