@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemWithCommentsDto> getByUserId(Integer userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException(
                 "Ошибка! Пользователя с заданным идентификатором не существует"));
         List<Item> items = itemRepository.findByOwnerId(userId);
 
@@ -111,7 +111,7 @@ public class ItemServiceImpl implements ItemService {
 
     private ItemWithCommentsDto getCommentsAndBooking(Item item) {
         List<CommentShowDto> comments =
-                commentRepository.findByItemId(item.getId()).stream().map(c -> CommentMapper.toDto(c)).toList();
+                commentRepository.findByItemId(item.getId()).stream().map(CommentMapper::toDto).toList();
         List<Booking> list = bookingRepository.findByItemIdAndEndIsBeforeOrderByStartDesc(item.getId(),
                 LocalDateTime.now());
         Booking lastBooking = list.isEmpty() ? null : list.getLast();
