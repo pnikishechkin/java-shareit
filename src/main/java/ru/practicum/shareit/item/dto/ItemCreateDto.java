@@ -16,6 +16,7 @@ public class ItemCreateDto {
     private User owner;
 
     private Integer ownerId;
+
     @NotNull
     private Boolean available;
 }

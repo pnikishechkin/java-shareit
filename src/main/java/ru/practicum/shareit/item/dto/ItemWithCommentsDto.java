@@ -1,22 +1,26 @@
 package ru.practicum.shareit.item.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.user.model.User;
+
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = "id")
 @ToString
-public class ItemUpdateDto {
-    @NotNull
+public class ItemWithCommentsDto {
+
     private Integer id;
     private String name;
     private String description;
-    private Integer ownerId;
     private User owner;
-
-    @NotNull
     private Boolean available;
+
+    private List<CommentShowDto> comments;
+    private Booking lastBooking;
+    private Booking nextBooking;
+
 }

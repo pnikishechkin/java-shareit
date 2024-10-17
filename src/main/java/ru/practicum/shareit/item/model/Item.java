@@ -1,17 +1,29 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import ru.practicum.shareit.user.model.User;
 
-@Data
-@ToString
-@EqualsAndHashCode(of = "id")
+@Entity
+@Table(name = "items")
+@Getter
+@Setter
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private User owner;
+
+    @Column(name = "available", nullable = false)
     private Boolean available;
 }

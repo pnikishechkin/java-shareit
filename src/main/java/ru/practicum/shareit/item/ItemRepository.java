@@ -1,13 +1,21 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.item.dto.ItemCreateDto;
-import ru.practicum.shareit.item.dto.ItemUpdateDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.item.model.Item;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
+public interface ItemRepository extends JpaRepository<Item, Integer> {
+    List<Item> findByOwnerId(Integer ownerId);
+
+    @Query("select i from Item i " +
+            "where (i.available=true) and upper(i.name) like upper(concat('%', ?1, '%')) " +
+            " or upper(i.description) like upper(concat('%', ?1, '%'))")
+    List<Item> search(String text);
+}
+
+/*
 @Repository
 public class ItemRepository {
     private static Integer id = 1;
@@ -29,7 +37,7 @@ public class ItemRepository {
 
     public Item update(ItemUpdateDto itemUpdateDto) {
         Item itemUpdate = items.get(itemUpdateDto.getId());
-        usersItems.get(itemUpdate.getOwner().getId()).remove(itemUpdate);
+//        usersItems.get(itemUpdate.getOwner().getId()).remove(itemUpdate);
         items.remove(itemUpdateDto.getId());
 
         Item item = ItemMapper.toEntity(itemUpdateDto);
@@ -57,13 +65,16 @@ public class ItemRepository {
         if (text.isEmpty())
             return Set.of();
 
-        return items.values().stream()
-                .filter(u -> (u.getAvailable() && (u.getName().toLowerCase().contains(text.toLowerCase())
-                        || u.getDescription().toLowerCase().contains(text.toLowerCase()))))
-                .collect(Collectors.toSet());
+        return null;
+
+//        return items.values().stream()
+//                .filter(u -> (u.getAvailable() && (u.getName().toLowerCase().contains(text.toLowerCase())
+//                        || u.getDescription().toLowerCase().contains(text.toLowerCase()))))
+//                .collect(Collectors.toSet());
     }
 
     private Integer getNewId() {
         return id++;
     }
 }
+ */

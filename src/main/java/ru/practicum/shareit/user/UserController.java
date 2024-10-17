@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserCreateDto;
-import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.dto.UserUpdateDto;
+import ru.practicum.shareit.user.model.User;
 
 @RestController
 @RequestMapping("/users")
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public Boolean deleteUser(@PathVariable @Positive final Integer userId) {
-        return userService.delete(userId);
+    public void deleteUser(@PathVariable @Positive final Integer userId) {
+        userService.delete(userId);
     }
 }
