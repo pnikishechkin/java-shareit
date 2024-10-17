@@ -119,6 +119,6 @@ public class ItemServiceImpl implements ItemService {
                 LocalDateTime.now());
         Booking nextBooking = list.isEmpty() ? null : list.getFirst();
 
-        return ItemMapper.toDto(item, comments, null, null);
+        return ItemMapper.toDto(item, comments, lastBooking, nextBooking);
     }
 }
