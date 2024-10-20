@@ -9,10 +9,9 @@ import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.*;
-import ru.practicum.shareit.item.model.Comment;
-import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,30 +26,34 @@ public class ItemServiceImpl implements ItemService {
     private final BookingRepository bookingRepository;
     private final CommentRepository commentRepository;
 
+    private final UserService userService;
+
     @Override
-    public ItemWithCommentsDto getById(Integer itemId) {
+    public ItemWithCommentsDto getDtoById(Integer itemId) {
 
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Ошибка! Вещи с заданным " +
                 "идентификатором не существует"));
-
         return getCommentsAndBooking(item);
+    }
+
+    @Override
+    public Item getById(Integer itemId) {
+        return itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException(
+                "Ошибка! Вещи с заданным идентификатором не существует"));
     }
 
     @Override
     public List<ItemWithCommentsDto> getByUserId(Integer userId) {
 
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+        userService.getById(userId);
         List<Item> items = itemRepository.findByOwnerId(userId);
-
         return items.stream().map(this::getCommentsAndBooking).toList();
     }
 
     @Override
     public Item create(ItemCreateDto itemCreateDto) {
 
-        User user = userRepository.findById(itemCreateDto.getOwnerId()).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+        User user = userService.getById(itemCreateDto.getOwnerId());
         itemCreateDto.setOwner(user);
         return itemRepository.save(ItemMapper.toEntity(itemCreateDto));
     }
@@ -67,8 +70,8 @@ public class ItemServiceImpl implements ItemService {
     public Item update(ItemUpdateDto itemUpdateDto) {
         Item item = itemRepository.findById(itemUpdateDto.getId()).orElseThrow(() -> new NotFoundException(
                 "Ошибка! Вещи с заданным идентификатором не существует"));
-        User user = userRepository.findById(itemUpdateDto.getOwnerId()).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+
+        User user = userService.getById(itemUpdateDto.getOwnerId());
 
         if (itemUpdateDto.getAvailable() == null) {
             itemUpdateDto.setAvailable(item.getAvailable());
@@ -86,10 +89,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public CommentShowDto postComment(CommentCreateDto commentCreateDto) {
-        Item item = itemRepository.findById(commentCreateDto.getItemId()).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Вещи с заданным идентификатором не существует"));
-        User user = userRepository.findById(commentCreateDto.getAuthorId()).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+        Item item = getById(commentCreateDto.getItemId());
+        User user = userService.getById(commentCreateDto.getAuthorId());
 
         Booking booking = bookingRepository.findByBookerIdAndItemId(commentCreateDto.getAuthorId(),
                 commentCreateDto.getItemId()).orElseThrow(() -> new NotFoundException(
@@ -121,4 +122,5 @@ public class ItemServiceImpl implements ItemService {
 
         return ItemMapper.toDto(item, comments, null, nextBooking);
     }
+
 }

@@ -7,7 +7,6 @@ import ru.practicum.shareit.item.dto.CommentShowDto;
 import ru.practicum.shareit.item.dto.ItemCreateDto;
 import ru.practicum.shareit.item.dto.ItemUpdateDto;
 import ru.practicum.shareit.item.dto.ItemWithCommentsDto;
-import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
 

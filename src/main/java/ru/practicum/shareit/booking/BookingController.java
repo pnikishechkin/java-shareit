@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -29,14 +28,14 @@ public class BookingController {
 
     @PatchMapping("/{bookingId}")
     public Booking approveBooking(@RequestHeader(SHARER_USER_ID) Integer userId,
-                                  @PathVariable @Positive Integer bookingId,
+                                  @PathVariable Integer bookingId,
                                   @RequestParam Boolean approved) {
         return bookingService.approve(userId, bookingId, approved);
     }
 
     @GetMapping("/{bookingId}")
     public Booking getBooking(@RequestHeader(SHARER_USER_ID) Integer userId,
-                              @PathVariable @Positive Integer bookingId) {
+                              @PathVariable Integer bookingId) {
         return bookingService.getById(userId, bookingId);
     }
 

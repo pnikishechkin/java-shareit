@@ -6,10 +6,12 @@ import org.springframework.validation.annotation.Validated;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,21 +25,25 @@ public class BookingServiceImpl implements BookingService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
+    private final UserService userService;
+    private final ItemService itemService;
+
     @Override
     public Booking create(BookingCreateDto bookingCreateDto) {
-        User user = userRepository.findById(bookingCreateDto.getBookerId()).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+
+        User user = userService.getById(bookingCreateDto.getBookerId());
         bookingCreateDto.setBooker(user);
 
         if (bookingCreateDto.getStart().equals(bookingCreateDto.getEnd())) {
             throw new BadRequestException("Ошибка! Дата начала и окончания бронирования совпадают");
         }
 
-        Item item = itemRepository.findById(bookingCreateDto.getItemId()).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Вещи с заданным идентификатором не существует"));
+        Item item = itemService.getById(bookingCreateDto.getItemId());
+
         if (!item.getAvailable()) {
             throw new BadRequestException("Ошибка! Вещь недоступна для бронирования");
         }
+
         bookingCreateDto.setItem(item);
 
         return bookingRepository.save(BookingMapper.toEntity(bookingCreateDto));
@@ -78,8 +84,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getBookingsByBooker(Integer userId, BookingState state) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+        userService.getById(userId);
 
         return switch (state) {
             case ALL -> bookingRepository.findByBookerIdOrderByStartDesc(userId);
@@ -95,8 +100,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getBookingsByOwner(Integer userId, BookingState state) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(
-                "Ошибка! Пользователя с заданным идентификатором не существует"));
+        User user = userService.getById(userId);
 
         List<Integer> ownerItemsIds = itemRepository.findByOwnerId(user.getId()).stream().map(Item::getId).toList();
 
@@ -114,5 +118,4 @@ public class BookingServiceImpl implements BookingService {
                     bookingRepository.findByItemIdInAndStatusOrderByStartDesc(ownerItemsIds, BookingStatus.REJECTED);
         };
     }
-
 }

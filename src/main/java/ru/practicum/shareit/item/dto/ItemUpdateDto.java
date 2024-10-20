@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.User;
 
 @Data
 @EqualsAndHashCode(of = "id")
