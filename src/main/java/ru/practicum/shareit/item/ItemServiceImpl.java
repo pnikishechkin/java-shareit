@@ -9,6 +9,8 @@ import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.*;
+import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.ItemRequestService;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.UserService;
@@ -27,6 +29,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepository;
 
     private final UserService userService;
+    private final ItemRequestService itemRequestService;
 
     @Override
     public ItemWithCommentsDto getDtoById(Integer itemId) {
@@ -54,8 +57,15 @@ public class ItemServiceImpl implements ItemService {
     public Item create(ItemCreateDto itemCreateDto) {
 
         User user = userService.getById(itemCreateDto.getOwnerId());
-        itemCreateDto.setOwner(user);
-        return itemRepository.save(ItemMapper.toEntity(itemCreateDto));
+        Item item = ItemMapper.toEntity(itemCreateDto);
+        item.setOwner(user);
+
+        if (itemCreateDto.getRequestId() != null) {
+            ItemRequest request = itemRequestService.getById(itemCreateDto.getRequestId());
+            item.setRequest(request);
+        }
+
+        return itemRepository.save(item);
     }
 
     @Override
@@ -82,9 +92,11 @@ public class ItemServiceImpl implements ItemService {
         if (itemUpdateDto.getDescription() == null) {
             itemUpdateDto.setDescription(item.getDescription());
         }
-        itemUpdateDto.setOwner(user);
 
-        return itemRepository.save(ItemMapper.toEntity(itemUpdateDto));
+        Item updateItem = ItemMapper.toEntity(itemUpdateDto);
+        updateItem.setOwner(user);
+
+        return itemRepository.save(updateItem);
     }
 
     @Override

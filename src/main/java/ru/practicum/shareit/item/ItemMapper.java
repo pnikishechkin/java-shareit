@@ -3,10 +3,7 @@ package ru.practicum.shareit.item;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.item.dto.CommentShowDto;
-import ru.practicum.shareit.item.dto.ItemCreateDto;
-import ru.practicum.shareit.item.dto.ItemUpdateDto;
-import ru.practicum.shareit.item.dto.ItemWithCommentsDto;
+import ru.practicum.shareit.item.dto.*;
 
 import java.util.List;
 
@@ -18,7 +15,6 @@ public final class ItemMapper {
         dto.setName(itemCreateDto.getName());
         dto.setDescription(itemCreateDto.getDescription());
         dto.setAvailable(itemCreateDto.getAvailable());
-        dto.setOwner(itemCreateDto.getOwner());
         return dto;
     }
 
@@ -45,6 +41,14 @@ public final class ItemMapper {
         dto.setLastBooking(lastBooking);
         dto.setNextBooking(nextBooking);
 
+        return dto;
+    }
+
+    public static ItemShortsDto toDto(Item item) {
+        ItemShortsDto dto = new ItemShortsDto();
+        dto.setId(item.getId());
+        dto.setOwnerId(item.getOwner().getId());
+        dto.setName(item.getName());
         return dto;
     }
 
