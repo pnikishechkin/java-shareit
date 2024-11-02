@@ -11,7 +11,9 @@ public class CommentMapper {
     public static Comment toEntity(CommentCreateDto commentCreateDto) {
         Comment entity = new Comment();
         entity.setText(commentCreateDto.getText());
-        entity.setCreated(commentCreateDto.getCreated());
+        if (commentCreateDto.getCreated() != null) {
+            entity.setCreated(commentCreateDto.getCreated());
+        }
         return entity;
     }
 

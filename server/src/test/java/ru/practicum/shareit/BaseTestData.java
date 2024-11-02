@@ -146,7 +146,7 @@ public class BaseTestData {
         booking2.setBooker(user3);
         booking2.setItem(item2);
         booking2.setStart(LocalDateTime.of(2024, 10, 31, 10, 10, 0));
-        booking2.setEnd(LocalDateTime.of(2025, 11, 11, 12, 0, 0));
+        booking2.setEnd(LocalDateTime.of(2024, 10, 31, 12, 0, 0));
         booking2.setStatus(BookingStatus.APPROVED);
 
     }

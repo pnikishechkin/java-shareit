@@ -41,10 +41,10 @@ class BookingServiceTest extends BaseTestData {
         assertEquals(booking2, bookings.getFirst());
 
         bookings = service.getBookingsByBooker(3L, BookingState.PAST);
-        assertEquals(0, bookings.size());
+        assertEquals(1, bookings.size());
 
         bookings = service.getBookingsByBooker(3L, BookingState.CURRENT);
-        assertEquals(1, bookings.size());
+        assertEquals(0, bookings.size());
 
         bookings = service.getBookingsByBooker(3L, BookingState.WAITING);
         assertEquals(0, bookings.size());

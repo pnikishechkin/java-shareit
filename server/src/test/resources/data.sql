@@ -13,4 +13,4 @@ VALUES ('Item 1', 'Text', true, 1, null),
 
 INSERT INTO bookings (start_date, end_date, item_id, booker_id, status)
 VALUES ('2024-10-31 10:10', '2025-11-11 12:00', 1, 2, 'WAITING'),
-       ('2024-10-31 10:10', '2025-11-11 12:00', 2, 3, 'APPROVED');
+       ('2024-10-31 10:10', '2024-10-31 12:00', 2, 3, 'APPROVED');

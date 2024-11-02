@@ -110,7 +110,7 @@ public class ItemServiceImpl implements ItemService {
                 "Ошибка! Заказа от данного автора на данную вещь не существовало!"));
 
         // Бронирование не было подтверждено или пока не закончено
-        if (!booking.getStatus().equals(BookingStatus.APPROVED) || booking.getEnd().isAfter(commentCreateDto.getCreated())) {
+        if (!booking.getStatus().equals(BookingStatus.APPROVED) || booking.getEnd().isAfter(LocalDateTime.now())) {
             throw new BadRequestException("Невозможно оставить комментарий! Бронирование не было подтверждено или не " +
                     "закончено!");
         }
@@ -118,7 +118,6 @@ public class ItemServiceImpl implements ItemService {
         Comment comment = CommentMapper.toEntity(commentCreateDto);
         comment.setItem(item);
         comment.setAuthor(user);
-
         comment.setCreated(LocalDateTime.now());
         commentRepository.save(comment);
         return CommentMapper.toDto(comment);
