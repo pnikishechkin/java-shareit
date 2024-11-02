@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.User;
 
 @Data
 @ToString
@@ -16,6 +16,7 @@ public class ItemCreateDto {
     private User owner;
 
     private Integer ownerId;
+
     @NotNull
     private Boolean available;
 }
