@@ -110,7 +110,7 @@ public class ItemServiceImpl implements ItemService {
                 "Ошибка! Заказа от данного автора на данную вещь не существовало!"));
 
         // Бронирование не было подтверждено или пока не закончено
-        if (!booking.getStatus().equals(BookingStatus.APPROVED) || booking.getEnd().isAfter(LocalDateTime.now())) {
+        if (!booking.getStatus().equals(BookingStatus.APPROVED) || booking.getEnd().isAfter(commentCreateDto.getCreated())) {
             throw new BadRequestException("Невозможно оставить комментарий! Бронирование не было подтверждено или не " +
                     "закончено!");
         }

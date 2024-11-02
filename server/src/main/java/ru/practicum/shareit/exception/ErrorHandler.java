@@ -30,7 +30,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleConflictException(final BadRequestException e) {
+    public ErrorResponse handleBadRequestException(final BadRequestException e) {
         return new ErrorResponse(
                 e.getMessage()
         );

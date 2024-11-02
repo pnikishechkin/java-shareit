@@ -55,8 +55,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public List<ItemRequestWithResponsesDto> getAll(Long userId) {
-        log.debug("Start get all");
+    public List<ItemRequestWithResponsesDto> getAll() {
         List<ItemRequest> list = itemRequestRepository.findAll();
         return list.stream().map(this::itemRequestAddResponses).toList();
     }

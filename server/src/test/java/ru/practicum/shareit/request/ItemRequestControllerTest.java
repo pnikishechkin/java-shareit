@@ -110,7 +110,7 @@ class ItemRequestControllerTest {
 
     @Test
     void testGetAllItemRequests() throws Exception {
-        when(itemRequestService.getAll(userId)).thenReturn(List.of(itemRequestWithResponsesDto));
+        when(itemRequestService.getAll()).thenReturn(List.of(itemRequestWithResponsesDto));
 
         mockMvc.perform(get("/requests/all")
                         .header(SHARER_USER_ID, userId)
@@ -120,7 +120,7 @@ class ItemRequestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":1,\"created\":\"2024-05-05T05:05:05\",\"description\":null,\"items\":null}]"));
 
-        verify(itemRequestService, times(1)).getAll(userId);
+        verify(itemRequestService, times(1)).getAll();
     }
 
 }

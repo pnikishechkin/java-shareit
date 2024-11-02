@@ -39,6 +39,6 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public List<ItemRequestWithResponsesDto> getAllItemRequests(@RequestHeader(SHARER_USER_ID) Long userId) {
-        return itemRequestService.getAll(userId);
+        return itemRequestService.getAll();
     }
 }
